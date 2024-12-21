@@ -5,7 +5,7 @@ The exploration of architecture alternatives is an essential part of the archite
 
 ----
 The artifacts provided include:
-* The Python code that implements the **ReArch** agents using [LlamaIndex](https://www.llamaindex.ai/)
-* A vector database (Chroma) for the agents
+* The Python code that implements the **ReArch** agents using [LlamaIndex](https://www.llamaindex.ai/). The prompts used by the agents are embedded in their code.
+* A vector database (Chroma) for the agents' tools to retrieve architectural knowlegdge, based on a RAG schema.
 * A Python script for exercising the agents on all the requirements of the [CampusBike](https://github.com/shamimaaktar1/ChatGPT4SA) case study. This script runs in a batch mode and generates the different trajectories as JSON and HTML files
 * Example *Jupyter* notebooks for instantiating and running the **ReArch** agents on a particular requirement (and system context), and also for displaying the trajectories (JSON files) as graphs
