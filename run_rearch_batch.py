@@ -19,7 +19,7 @@ warnings.filterwarnings("ignore")
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
-ENV_PATH = Path('.') / 'andres.env'
+ENV_PATH = Path('.') / '<your-env-file>.env'
 result = load_dotenv(dotenv_path=ENV_PATH.resolve(), override=True)
 os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
 os.environ["OPENAI_MODEL_NAME"] = 'gpt-4o-mini' 

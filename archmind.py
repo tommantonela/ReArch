@@ -102,18 +102,6 @@ class PatternDecision(BaseModel):
     best_pattern: Optional[str] = Field(description="name of best pattern for the requirements")
     rationale: Optional[str] = Field(description="instantation of the best pattern to satisfy the requirements and rationale for its selection")
 
-# class ArchitectureDecisionRecord(BaseModel):
-#     title: str = Field(description="short title, representative of the solved problem and found solution by the Architecture Decision Record")
-#     context: str = Field(description="context and problem statement for the decision")
-#     decision_drivers: str = Field(description="requiremts or other factors that influenced the decision")
-#     considered_options: List[str] = Field(description="list of alternative design solutions considered by the experts")
-#     decision_outcome: str = Field(description="the best chosen decision from the considered options, including a design justification aligned with the decision drivers that addresses the problem")
-#     consequences: List[str] = Field(description="The impact and design considerations regarding the chosen option")
-#     pros_cons_options: List[str] = Field(description="Comparison of advantages and disadvantages for each of the considered options")
-
-# class AlternativeSummary(BaseModel):
-#     summary: str = Field(description="A concise but descriptive paragraph grounded on the design rationale and reflection for the design solution")
-#     key_patterns: List[str] = Field(description="The patterns used by the design solution")
 
 class ArchmindAssistant:
 
@@ -315,11 +303,6 @@ class ArchmindAssistant:
         if self.requirement != query:
             print(">>> from database:", self.requirement)
         return self.requirement
-
-    # def fetch_decision(self, query: str) -> str|None:
-    #     decision_node = self.sys_store.get_decision(query) if (query is not None) else None
-    #     self.decision = decision_node.text if (decision_node is not None) else query
-    #     return self.decision
 
     def add_decision(self, id:str, decision: str):
         if id in self.prior_decisions.keys():
@@ -525,32 +508,6 @@ class ArchmindAssistant:
         response = chat_engine.chat(t)
         #print(response)
         return response.response
-    
-    # def get_summary(self, requirement: str, n:int, trajectory: str, reflection: str, context:str=None, raw=False) -> str:
-    #     my_context_node = self.sys_store.get_system() if (self.sys_id is not None) else None
-    #     my_requirements = str([requirement]) #str([self.fetch_requirement(requirement)])
-
-    #     custom_retriever = ContextRetriever(my_context_node)
-    #     my_template = PromptTemplate(ArchmindAssistant.ADR_PROMPT_TEMPLATE)
-    #     t = my_template.partial_format(n=n, alternative=trajectory, reflection=reflection)
-
-    #     # TODO: Cambiar a un completion comun de un chat
-    #     query_engine = RetrieverQueryEngine.from_args(
-    #         retriever=custom_retriever,
-    #         text_qa = t,
-    #         llm=self.llm,
-    #         output_cls=AlternativeSummary, verbose=True
-    #     )
-    #     print(my_template.format(n=n, alternative=trajectory, reflection=reflection))
-        
-    #     nodes = query_engine.retrieve(my_requirements)
-    #     print(len(nodes), "chunks retrieved")
-    #     response = query_engine.query(my_requirements)
-        
-    #     if raw:
-    #         return response.response
-    #     else:
-    #         return response.response
 
 
 class LATSDesignAgentWorker(LATSAgentWorker):

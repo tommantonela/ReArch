@@ -393,31 +393,6 @@ class DesignStore:
             n = TextNode(id_=idx, text=node.text, metadata=node.metadata) # No embeddings returned
             nodes.append(NodeWithScore(node=n, score=score))
         return nodes
-    
-    # def _get_embeddings(self, collection:str, ids:List=None):
-    #     chroma_collection = None
-    #     if not (collection in ["requirements", "decisions", "system"]):
-    #        print("Error: collection not found ...", collection)
-    #        return []
-    #     if collection == "system":
-    #         chroma_collection = self.system_collection
-    #     elif collection == "requirements":
-    #         chroma_collection = self.requirements_collection
-    #     else:
-    #         chroma_collection = self.decisions_collection
-        
-    #     # Get all embeddings
-    #     if ids is None:
-    #         result = chroma_collection.get(include=['embeddings'])
-    #         print(result)
-    #         return result['embeddings']
-    #     if len(ids) == 0:
-    #         return []
-
-    #     # Get embeddings by document_id
-    #     result = chroma_collection.get(ids=ids, include=['embeddings'])
-    #     print(result)
-    #     return result['embeddings']
 
     def get_named_patterns(self) -> List[str]:
         result = self.requirements_collection.get(include=['metadatas'])
@@ -563,40 +538,6 @@ class DesignStore:
                                    embed_model = HuggingFaceEmbedding(model_name=self.EMBEDDINGS_MODEL), #'local',
                                    kg_extractors=[],  show_progress=True)
         return graph_store, index
-    
-    # @staticmethod
-    # def as_dot_graph(graph, system=''):
-
-    #     id = graph.graph['id']
-    #     dot_graph = Dot(system+id, graph_type='digraph', label=system+id)
-
-    #     for n, data in graph.nodes(data=True):
-    #         kind = data['kind']
-    #         if kind == 'requirement':
-    #             dot_graph.add_node(Node(n, shape='circle'))
-    #         elif kind == 'pattern':
-    #             dot_graph.add_node(Node(n, shape='rectangle', fillcolor='gray', style='filled'))
-    #         elif kind == 'decision':
-    #             dot_graph.add_node(Node(n, shape='diamond'))
-    #         else:
-    #             dot_graph.add_node(Node(n))
-        
-    #     for s,t,data in graph.edges(data=True):
-    #         source = graph.nodes[s]
-    #         target = graph.nodes[t]
-    #         kind = data['kind']
-    #         if kind == 'can_satisfy':
-    #             dot_graph.add_edge(Edge(s, t, color='blue', style='dashed'))
-    #         elif kind == 'is_refined_by':
-    #             dot_graph.add_edge(s, t, color='black')
-    #         elif kind == 'implements':
-    #             dot_graph.add_edge(Edge(s, t, color='green', style='dashed'))
-    #         elif kind == 'satisfies':
-    #             dot_graph.add_edge(Edge(s, t, color='red'))
-    #         else:
-    #             dot_graph.add_edge(s, t)
-        
-    #     return dot_graph
 
 
 # TODO: Visualization of nodes using UMAP/BERTopic (zero-shot)?
@@ -743,7 +684,8 @@ class KnowledgeStore:
 
     PATTERN_DESCRIPTION_TEMPLATE = (
         "You are an expert software architect. Please provide a concise description of {pattern}, including its usage in software design."
-    )    
+    ) 
+       
     def get_pattern_descriptions(self, patterns:List[str], collection:str='all') -> List[Response]:
         query_engine = self.get_query_engine(collection=collection)
         qa_template = PromptTemplate(KnowledgeStore.PATTERN_DESCRIPTION_TEMPLATE)
